@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FUO Test Driller</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<section id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-brand"><span class="brand-mini">FUO</span><strong>FUO TEST DRILLER</strong></div>
+    <p class="auth-kicker">FEDERAL UNIVERSITY OTUOKE</p>
+    <h1 id="authTitle">Welcome back</h1>
+    <p id="authSubtitle" class="muted">Sign in to continue to your test-drilling dashboard.</p>
+    <form id="loginForm" class="auth-form">
+      <label>Email<input id="loginEmail" type="email" autocomplete="email" required></label>
+      <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required minlength="6"></label>
+      <p id="loginError" class="form-error" aria-live="polite"></p>
+      <button class="primary full" type="submit">Sign in</button>
+      <button id="showRegister" class="auth-switch" type="button">New student? Create an account</button>
+    </form>
+    <form id="registerForm" class="auth-form hidden">
+      <label>Full name<input id="registerName" type="text" autocomplete="name" required></label>
+      <label>Email<input id="registerEmail" type="email" autocomplete="email" required></label>
+      <label>Password<input id="registerPassword" type="password" autocomplete="new-password" required minlength="6"></label>
+      <label>Confirm password<input id="registerConfirm" type="password" autocomplete="new-password" required minlength="6"></label>
+      <p id="registerError" class="form-error" aria-live="polite"></p>
+      <button class="primary full" type="submit">Create account</button>
+      <button id="showLogin" class="auth-switch" type="button">Already have an account? Sign in</button>
+    </form>
+    <small class="auth-note">Your account is stored locally in this browser. For real secure authentication, connect Firebase/Supabase later.</small>
+  </div>
+</section>
+<div id="app" class="app hidden">
+<header class="topbar"><div class="brand-inline"><span class="brand-mini">FUO</span><div><strong>FUO TEST DRILLER</strong><span id="welcomeName"></span></div></div><span class="guest-badge">Practice Mode</span></header>
+<main class="container">
+<section id="dashboardPage" class="page"><div class="hero"><div><span class="eyebrow">FEDERAL UNIVERSITY OTUOKE</span><h2>Study. Practice. Improve.</h2><p>A source-guided CBT practice platform for MTH 101, PHY 101 and CHEM 101.</p><div class="hero-actions"><button class="primary" data-page="coursesPage">Start practicing</button><button class="ghost hero-ghost" data-page="resultsHistoryPage">View results</button></div></div><div class="hero-stat"><b id="questionCount">0</b><span>questions</span></div></div>
+<div class="section-title"><h3>Courses</h3><span class="muted">90 questions per topic</span></div><div class="cards three"><button class="card course-card" data-course="MTH 101"><b>MTH 101</b><span>Mathematics • 8 topics • 720 questions</span></button><button class="card course-card" data-course="PHY 101"><b>PHY 101</b><span>Physics • 17 topics • 1,530 questions</span></button><button class="card course-card" data-course="CHEM 101"><b>CHEM 101</b><span>Chemistry • 8 topics • 720 questions</span></button></div>
+<div class="section-title"><h3>Your performance</h3></div><div class="cards three"><div class="card stat-card"><span class="muted">Tests completed</span><b id="testsDone">0</b></div><div class="card stat-card"><span class="muted">Average score</span><b id="avgScore">0%</b></div><div class="card stat-card"><span class="muted">Best score</span><b id="bestScore">0%</b></div></div>
+</section>
+<section id="coursesPage" class="page hidden"><div class="page-head"><span class="eyebrow">PRACTICE</span><h2>Choose a course</h2><p>Every course is divided into the topics in your project syllabus.</p></div><div id="courseGrid" class="cards three"></div></section>
+<section id="topicsPage" class="page hidden"><div class="page-head"><button id="backCourses" class="ghost">← Courses</button><span class="eyebrow">TOPICS</span><h2 id="topicTitle"></h2><p>Select one topic or practise across the entire course.</p></div><div id="topicGrid" class="topic-grid"></div></section>
+<section id="setupPage" class="page hidden"><div class="page-head"><button id="backTopics" class="ghost">← Topics</button><span class="eyebrow">TEST SETUP</span><h2>Configure your test</h2></div><div class="setup-card"><div class="setup-summary" id="setupInfo"></div><label>Question scope<select id="questionLimit"><option value="10">10 questions</option><option value="20">20 questions</option><option value="30">30 questions</option><option value="50">50 questions</option><option value="90">90 questions</option><option value="all">All available in selection</option></select></label><label>Time per question<select id="timePerQuestion"><option value="60">1 minute</option><option value="90">1.5 minutes</option><option value="120">2 minutes</option><option value="180">3 minutes</option></select></label><label>Custom total time <span class="muted small">optional</span><input id="customMinutes" type="number" min="1" max="300" placeholder="Leave blank to use time per question"></label><button id="startTest" class="primary full">Start test</button></div></section>
+<section id="testPage" class="page hidden"><div class="test-top"><div><span id="testCourse"></span><h2 id="testTopic"></h2></div><div class="timer" id="timer">00:00</div></div><div class="progress"><div id="progressBar"></div></div><div class="question-card"><div class="q-meta"><span id="qNumber"></span><span id="qDifficulty"></span></div><h3 id="questionText"></h3><div id="options" class="options"></div><div class="test-actions"><button id="prevBtn" class="ghost">Previous</button><button id="nextBtn" class="primary">Next</button><button id="submitBtn" class="danger hidden">Submit test</button></div></div></section>
+<section id="resultsPage" class="page hidden"><div class="result-card"><span class="eyebrow">TEST COMPLETE</span><h2 id="resultTitle"></h2><div class="score-circle" id="resultPercent">0%</div><div class="result-grid"><span>Correct<b id="resultCorrect"></b></span><span>Wrong<b id="resultWrong"></b></span><span>Unanswered<b id="resultUnanswered"></b></span><span>Questions<b id="resultTotal"></b></span><span>Course<b id="resultCourse"></b></span><span>Topic<b id="resultTopic"></b></span><span>Time used<b id="resultTime"></b></span><span>Grade<b id="resultGrade"></b></span></div><p id="resultMessage"></p><div class="test-actions center"><button id="reviewBtn" class="primary">Review answers</button><button id="retryBtn" class="ghost">Try again</button><button id="homeBtn" class="ghost">Dashboard</button></div></div></section>
+<section id="reviewPage" class="page hidden"><div class="page-head"><button id="backResults" class="ghost">← Results</button><span class="eyebrow">REVIEW</span><h2>Answer review</h2></div><div id="reviewList"></div></section>
+<section id="profilePage" class="page hidden"><div class="page-head"><span class="eyebrow">ACCOUNT</span><h2>Profile</h2></div><div class="profile-card"><div class="avatar" id="avatar"></div><h3 id="profileName"></h3><p id="profileEmail"></p><p class="muted">Your practice results are saved locally on this device.</p><button id="logoutBtn" class="danger">Sign out</button></div></section>
+<section id="resultsHistoryPage" class="page hidden"><div class="page-head"><span class="eyebrow">PERFORMANCE</span><h2>Results history</h2><p>Your completed practice tests are stored locally on this device.</p></div><div id="historyList"></div></section>
+</main><nav class="bottom-nav"><button data-page="dashboardPage">Home</button><button data-page="coursesPage">Courses</button><button data-page="resultsHistoryPage">Results</button><button data-page="profilePage">Profile</button></nav>
+</div><script src="script.js"></script></body></html>
